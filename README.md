@@ -1,1 +1,1 @@
-## E-Commerce App
+## E-Commerce React App
