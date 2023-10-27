@@ -1,4 +1,5 @@
 import { Fragment, useContext } from "react";
+
 import { Outlet, Link } from "react-router-dom";
 
 import { UserContext } from "../../contexts/user.context";
@@ -24,9 +25,6 @@ const Navigation = () => {
                 <div className="nav-links-container">
                     <Link className="nav-link" to="/shop">
                         SHOP
-                    </Link>
-                    <Link className="checkout" to="/checkout">
-                        CHECKOUT
                     </Link>
                     {
                         currentUser ?
