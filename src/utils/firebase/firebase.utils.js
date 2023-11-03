@@ -20,7 +20,6 @@ import {
 
 } from "firebase/firestore"
 
-
 const firebaseConfig = {
     apiKey: "AIzaSyA89O8o7tTivE1ibWPncFxJ0Ojjs4Q1ZYg",
     authDomain: "e-clothing-db-b7865.firebaseapp.com",
@@ -68,7 +67,8 @@ export const getCategoriesUndDocuments = async () => {
 
 export const createUserDocumetnFromAuth = async (
     userAuth,
-    additionalInformation = {}) => {
+    additionalInformation = {}
+) => {
     if (!userAuth) return;
 
     const userDocRef = doc(db, "users", userAuth.uid);
@@ -80,19 +80,17 @@ export const createUserDocumetnFromAuth = async (
         const createdAt = new Date();
 
         try {
-            await setDoc(
-                userDocRef,
-                {
-                    displayName,
-                    email,
-                    createdAt,
-                    ...additionalInformation,
-                });
+            await setDoc(userDocRef, {
+                displayName,
+                email,
+                createdAt,
+                ...additionalInformation,
+            });
         } catch (error) {
             console.log("error creating the user", error.message);
         }
     }
-    return userDocRef;
+    return userSnapshot;
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -111,3 +109,16 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
     onAuthStateChanged(auth, callback);
+
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(
+            auth,
+            (userAuth) => {
+                unsubscribe();
+                resolve(userAuth);
+            },
+            reject
+        );
+    });
+};    
