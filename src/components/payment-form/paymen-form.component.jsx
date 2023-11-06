@@ -28,7 +28,8 @@ const PaymentForm = () => {
         if (!stripe || !elements) {
             return;
         }
-        // setIsProcessingPayment(true);
+
+        setIsProcessingPayment(true);
 
         const response = await fetch('/.netlify/functions/create-payment-intent', {
             method: 'post',
@@ -49,12 +50,12 @@ const PaymentForm = () => {
                 billing_details: {
                     name:
                         currentUser ? currentUser.displayName :
-                            'Velizar Ganchev',
+                            'Guest',
                 },
             },
         });
 
-         //setIsProcessingPayment(false);
+        setIsProcessingPayment(false);
 
         if (paymentResult.error) {
             alert(paymentResult.error.message);
@@ -71,7 +72,8 @@ const PaymentForm = () => {
                 <h2>Credit Card Payment:</h2>
                 <CardElement />
                 <PaymentButton
-                    buttonType={BUTTON_TYPE_CLASSES.inverted}>
+                    buttonType={BUTTON_TYPE_CLASSES.inverted}
+                    isLoading={isProcessingPayment}>
                     Pay Now
                 </PaymentButton>
             </FormContainer>
