@@ -83,15 +83,15 @@ export type AdditionalInformation = {
 }
 
 export type UserData = {
+    createdAt: Date,
     displayName: string,
     email: string,
-    createdAt: Date,
 }
 
 export const createUserDocumetnFromAuth = async (
     userAuth: User,
-    additionalInformation: AdditionalInformation,
-): Promise<void | QueryDocumentSnapshot<UserData>> => {
+    additionalInformation = {} as AdditionalInformation,
+): Promise<QueryDocumentSnapshot<UserData> |void> => {
     if (!userAuth) return;
 
     const userDocRef = doc(db, "users", userAuth.uid);
